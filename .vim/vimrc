@@ -1,0 +1,639 @@
+if &compatible
+  set nocompatible
+endif
+
+set termguicolors
+set background=dark
+set clipboard=unnamed
+"set clipboard=unnamedplus
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+    " tpope stuff
+    Plug 'https://tpope.io/vim/abolish.git'
+    Plug 'https://tpope.io/vim/apathy.git'
+    Plug 'https://tpope.io/vim/commentary.git'
+    Plug 'https://tpope.io/vim/dispatch.git'
+    Plug 'https://tpope.io/vim/eunuch.git'
+    Plug 'https://tpope.io/vim/fugitive.git'
+    Plug 'https://tpope.io/vim/git.git'
+    Plug 'https://tpope.io/vim/projectionist.git'
+    Plug 'https://tpope.io/vim/ragtag.git'
+    Plug 'https://tpope.io/vim/repeat.git'
+    Plug 'https://tpope.io/vim/rhubarb.git'
+    Plug 'https://tpope.io/vim/rsi.git'
+    Plug 'https://tpope.io/vim/scriptease.git'
+    Plug 'https://tpope.io/vim/sensible.git'
+    Plug 'https://tpope.io/vim/speeddating.git'
+    Plug 'https://tpope.io/vim/surround.git'
+    Plug 'https://tpope.io/vim/unimpaired.git'
+    Plug 'https://tpope.io/vim/vinegar.git'
+
+    " TOML support
+    Plug 'cespare/vim-toml'
+
+    " Gitlab integration for fugitive
+    Plug 'shumphrey/fugitive-gitlab.vim'
+
+    " Fuzzy finding
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+
+    " tmux integration
+    Plug 'jpalardy/vim-slime'
+
+    " sexp motions
+    Plug 'guns/vim-sexp'
+
+    " Rainbow parens
+    Plug 'luochen1990/rainbow'
+
+    " Fancy status lines
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+
+    " Undo Tree
+    Plug 'mbbill/undotree'
+
+    " IntelliSense via LSP
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    
+    " Correct indent for Python / Bazel
+    Plug 'emidln/vim-python-pep8-indent'
+
+    " which-key for vim
+    Plug 'liuchengxu/vim-which-key'
+
+    " Color Scheme
+    "Plug 'iCyMind/NeoSolarized'
+    Plug 'liuchengxu/space-vim-theme'
+
+    " I can't suffer netrw alone
+    Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+
+    " Prevent whitespace-related stress in cuzdav
+    Plug 'axelf4/vim-strip-trailing-whitespace'
+
+    " JSONnet support
+    Plug 'google/vim-jsonnet'
+
+    " Integrate fugitive and Gitea, my private github replacement
+    Plug 'borissov/fugitive-gitea'
+
+
+" Initialize plugin system
+call plug#end()
+
+filetype plugin indent on
+syntax enable
+
+set incsearch
+set hlsearch
+set cmdheight=1
+let g:mapleader = "\<space>"
+let g:maplocalleader = ","
+
+" Command history
+set history=1000
+
+" Update the window title
+set title
+
+" Use utf-8
+set encoding=utf-8
+set termencoding=utf-8
+
+" Always show the statusline
+set laststatus=2
+
+" Show the mode
+set showmode
+set modeline
+
+" Don't use tabs by default, 'tabs' are 4 spaces
+set sw=4
+set ts=4
+set sts=4
+set expandtab
+
+" Indent better
+set autoindent
+set smartindent
+set smarttab
+
+" Show line numbers
+set number
+
+" Make backspace better
+set backspace=indent,eol,start
+
+" A buffer becomes hidden when it is abandoned, instead of nagging you
+set hidden
+
+" Automatically reload when a file is changed from outside
+set autoread
+
+" When searching ignore case, unless given an uppercase character
+set ignorecase
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Incremental search results
+set incsearch
+
+" Unknown if I'm ready for magic????
+set magic
+
+" Use a dark theme
+colorscheme space_vim_theme
+
+" Make which-key quick
+set timeoutlen=250
+let g:which_key_exit = ["\<C-G>", "\<C-[>", "\<Esc>"]
+let g:which_key_use_floating_win = 0
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+"" Setup our Leader and LocalLeader with which-key
+nnoremap <silent> <leader><tab> <C-^><CR>
+let g:which_key_map = {
+    \ '<Tab>': 'last-buffer',
+    \ ' ': [':Commands!', 'commands'],
+\}
+
+call which_key#register('<Space>', "g:which_key_map")
+nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey ','<CR>
+
+" Disable highlight when <Backspace> is pressed
+nnoremap <silent> <BS> :nohlsearch<CR>
+
+" Enable persistent undo so that undo history persists across vim sessions
+set undoreload=1000
+set undofile
+set undolevels=1000
+call mkdir($HOME . "/.vim/undo", "p")
+set undodir=~/.vim/undo
+
+" Keep vim backup files here
+set backup
+call mkdir($HOME . "/.vim/backup", "p")
+set backupdir=~/.vim/backup
+
+" Keep temporary files here
+call mkdir($HOME . "/.vim/tmp", "p")
+set directory=~/.vim/tmp
+
+" Enable rainbow parens
+let g:rainbow_active = 1
+
+" Use arrow keys to switch between files
+nnoremap <silent> <Right> :next<CR>
+nnoremap <silent> <Left> :previous<CR>
+
+" Configure tmux integration
+let g:slime_target = 'tmux'
+let g:slime_paste_file = "$HOME/.vim/slime_paste_file"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+let g:slime_python_ipython = 0
+let g:slime_dont_ask_default = 1
+
+autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
+
+" Send the whole buffer
+nmap <silent> <localleader>sb maggvG$<C-c><C-c><ESC>'a
+" Send the current line
+nmap <silent> <localleader>sl ma^v$<C-c><C-c><ESC>'a
+
+" Send the current function
+autocmd FileType python nmap <localleader>sf mavaM<C-c><C-c>'a
+" Send the current class
+autocmd Filetype python nmap <localleader>sc mavaC<C-c><C-c>'a
+
+" Match spacemacs shortcut to edit .spacemacs for .vimrc
+nmap <silent> <leader>fed :edit! ~/.vim/vimrc<CR>
+nmap <silent> <leader>fec :CocConfig<CR>
+nmap <silent> <leader>fer :source ~/.vim/vimrc<CR>:CocRestart<CR>
+nmap <silent> <leader>fee :source %<CR>
+
+" buffers
+nnoremap <silent> <leader>bb :Buffers<CR>
+nnoremap <silent> <leader>bp :bprevious!<CR>
+nnoremap <silent> <leader>bn :bnext!<CR>
+nnoremap <silent> <leader>bx :close!<CR>
+nnoremap <silent> <leader>bc :close!<CR>
+let g:which_key_map.b = {
+        \ 'name': '+buffers',
+        \ 'b': 'fzf-buffers',
+        \ 'p': 'previous-buffer',
+        \ 'n': 'next-buffer',
+        \ 'x': 'close-buffer',
+        \ 'c': 'close-buffer',
+\}
+
+
+" searching
+nnoremap <silent> <leader>/ :Rg<CR>
+nnoremap <silent> <leader>* :Rg <C-R><C-W><CR>
+let g:which_key_map['/'] = 'search'
+let g:which_key_map['*'] = 'search-this-word'
+
+" files / directories
+nnoremap <silent> <leader>fr :History!<CR>
+nnoremap <silent> <leader>ff :Files!<CR>
+function! FzFDirectories()
+    call inputsave()
+    let startDir = input('Starting directory: ')
+    if empty(startDir)
+        let startDir = '~'
+    endif
+    call fzf#run(fzf#wrap({'source': 'bash -c "fd -p -t d ".*" ' . startDir . '"',
+                \ 'options': '+m',
+                \ 'sink': 'cd'}))
+endfunction
+nnoremap <silent> <leader>fd :call FzFDirectories()<CR>
+nnoremap <silent> <leader>fs :w<CR>
+nnoremap <silent> <leader>fS :wa<CR>
+nnoremap <silent> <leader>ft :NERDTreeToggle<CR>
+
+let g:which_key_map.f = {
+        \ 'name': '+files',
+        \ 'f': 'find-files',
+        \ 'r': 'find-recent-files',
+        \ 'd': 'change-directory',
+        \ 's': 'save',
+        \ 'S': 'save-all',
+        \ 't': 'file-tree',
+        \ 'e': {
+            \ 'name': '+neovim',
+            \ 'd': 'edit-vimrc',
+            \ 'r': 'reload-vimrc',
+            \ 'e': 'source-buffer',
+        \},
+\}
+
+" Projects
+function! ProjectileProject()
+    call fzf#run(fzf#wrap({'source': 'bash -c "find ~/code -maxdepth 2 -type d -name \"*.git\" -exec dirname {} \; | sort -u"',
+                \ 'options': '+m',
+                \ 'sink': 'cd'}))
+endfunction
+nnoremap <silent> <leader>pp :call ProjectileProject()<CR>
+nnoremap <silent> <leader>pf :GFiles!<CR>
+
+let g:which_key_map.p = {
+        \ 'name': '+projects',
+        \ 'p': 'select-project',
+        \ 'f': 'find-files-in-project',
+\}
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+" Unclear if this is useful
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Window navigation
+nnoremap <silent> <leader>wh <C-w>h<CR>
+nnoremap <silent> <leader>wl <C-w>l<CR>
+nnoremap <silent> <leader>wj <C-w>j<CR>
+nnoremap <silent> <leader>wk <C-w>k<CR>
+nnoremap <silent> <leader>w= <C-w>=<CR>
+nnoremap <silent> <leader>wr <C-w>r<CR>
+nnoremap <silent> <leader>wc <C-w>c<CR>
+nnoremap <silent> <leader>wv <C-w>v<CR>
+nnoremap <silent> <leader>ws <C-w>s<CR>
+nnoremap <silent> <leader>ww <C-w>w<CR>
+nnoremap <silent> <leader>wx <C-w>x<CR>
+nnoremap <silent> <leader>w? <C-w>?<CR>
+
+let g:which_key_map.w = {
+        \ 'name': '+windows',
+        \ 'w': ['<C-W>w'  , 'other-window'      ],
+        \ 'x': ['<C-W>x'  , 'exchange-other'    ],
+        \ 'h': ['<C-W>h'  , 'window-left'       ],
+        \ 'l': ['<C-W>l'  , 'window-right'      ],
+        \ 'k': ['<C-W>k'  , 'window-up'         ],
+        \ 'j': ['<C-W>j'  , 'window-down'       ],
+        \ '=': ['<C-W>='  , 'equalize-all'      ],
+        \ 'r': ['<C-W>r'  , 'rotate-windows'    ],
+        \ 'c': ['<C-W>c'  , 'close-windows'     ],
+        \ 'v': ['<C-W>v'  , 'verical-split'     ],
+        \ 's': ['<C-W>s'  , 'horizontal-split'  ],
+        \ '?': ['Windows' , 'fzf-window'        ],
+\ }
+
+" fzf configuration
+let g:fzf_layout = { "up": "~40%" }
+
+" QuickFix commands
+function! QuickFix_toggle()
+    for i in range(1, winnr('$'))
+        let bnum = winbufnr(i)
+        if getbufvar(bnum, '&buftype') == 'quickfix'
+            cclose
+            return
+        endif
+    endfor
+
+    copen
+endfunction
+nnoremap <silent> <leader>en :cnext<CR>
+nnoremap <silent> <leader>ep :cprevious<CR>
+nnoremap <silent> <leader>ex :cclose<CR>
+nnoremap <silent> <leader>ec :cclose<CR>
+nnoremap <silent> <leader>el :call QuickFix_toggle()<CR>
+let g:which_key_map.e = {
+        \ 'name': '+errors',
+        \ 'n': 'next-error',
+        \ 'p': 'previous-error',
+        \ 'x': 'close',
+        \ 'c': 'close',
+        \ 'l': 'list-errors',
+\ }
+
+nnoremap <silent> <leader>gb :Git blame<CR>
+nnoremap <silent> <leader>gl :Commits<CR>
+nnoremap <silent> <leader>gfl :BCommits<CR>
+nnoremap <silent> <leader>gs :Git status<CR>
+let g:which_key_map.g = {
+    \ 'name': '+git',
+    \ 'b': 'blame',
+    \ 'l': 'log',
+    \ 'f': {
+        \ 'name': '+file',
+        \ 'l': 'log',
+    \ },
+    \ 's': 'status',
+\ }
+
+
+
+" Misc spacemacs compat
+nnoremap <silent> <leader>qq :qa!<CR>
+let g:which_key_map.q = {
+        \ 'name': '+quit',
+        \ 'q': 'list-errors',
+\ }
+
+
+nnoremap <silent> <leader><leader> :Commands!<CR>
+
+" Toggle line numbers
+nnoremap <silent> <leader>tn :set invnumber<CR>
+" Toggle Paste Mode
+nnoremap <silent> <leader>tp :set invpaste<CR>
+" Toggle relative line numbers
+nnoremap <silent> <leader>tr :set invrelativenumber<CR>
+" Select theme
+nnoremap <silent> <leader>tt :Colors<CR>
+" Toggle background=light|dark
+function ToggleBackground()
+    if &background == 'dark'
+        set background=light
+    else
+        set background=dark
+    endif
+endfunction
+nnoremap <silent> <leader>tb :call ToggleBackground()<CR>
+" Undo Tree
+nnoremap <silent> <leader>tu :UndotreeToggle<CR>
+
+let g:which_key_map.t = {
+        \ 'name': '+toggles',
+        \ 'n': 'line-numbers',
+        \ 'p': 'paste-mode',
+        \ 'r': 'relative-line-numbers',
+        \ 't': 'themes',
+        \ 'b': 'background',
+        \ 'u': 'undo tree',
+\ }
+
+let g:airline_powerline_fonts = 1
+let g:airline_detect_modified = 1
+let g:airline_detect_paste = 1
+let g:airline_theme='dark'
+
+let g:coc_node_path = "/opt/homebrew/bin/node"
+
+" Setup tab completion with coc.nvim
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Explicit vim-sexp Mappings
+let g:sexp_filetypes = ''
+
+" Enter insert mode after wrapping
+let g:sexp_insert_after_wrap = 1
+
+function! s:map_sexp_wrap(type, target, left, right, pos)
+    execute (a:type ==# 'v' ? 'x' : 'n').'noremap'
+                \ '<buffer><silent>' a:target ':<C-U>let b:sexp_count = v:count<Bar>exe "normal! m`"<Bar>'
+                \ . 'call sexp#wrap("'.a:type.'", "'.a:left.'", "'.a:right.'", '.a:pos.', 0)'
+                \ . '<Bar>silent! call repeat#set("'.a:target.'", v:count)<CR>'
+endfunction
+
+" function! s:map_local_leader(mapping, chord, action, label, ...) 
+"     let want_cr = a:4 ? a:4 : 1
+"     let my_CR = 'CR' ? want_cr : ''
+"     execute a:mapping . ' <silent><leader>m' . a:chord . ' ' . a:action . my_CR
+"     execute a:mapping . ' <silent><localleader>' . a:chord . ' ' . a:action . my_CR
+"     execute 
+
+" Wrapping in all modes
+call s:map_sexp_wrap('e', '<leader>kw(', '(', ')', 0)
+call s:map_sexp_wrap('e', '<leader>kw)', '(', ')', 1)
+call s:map_sexp_wrap('e', '<leader>kw[', '[', ']', 0)
+call s:map_sexp_wrap('e', '<leader>kw]', '[', ']', 1)
+call s:map_sexp_wrap('e', '<leader>kw{', '{', '}', 0)
+call s:map_sexp_wrap('e', '<leader>kw{', '{', '}', 1)
+call s:map_sexp_wrap('e', '<leader>kw"', '"', '"', 0)
+call s:map_sexp_wrap('e', '<leader>kw"', '"', '"', 1)
+call s:map_sexp_wrap('e', "<leader>kw'", "'", "'", 0)
+call s:map_sexp_wrap('e', "<leader>kw'", "'", "'", 1)
+call s:map_sexp_wrap('e', '<leader>kw*', '*', '*', 0)
+call s:map_sexp_wrap('e', '<leader>kw*', '*', '*', 1)
+
+function! s:init_sexp()
+
+    " Slurp
+    nmap <buffer> <leader>ks <Plug>(sexp_capture_next_element)
+    nmap <buffer> <leader>kb <Plug>(sexp_capture_prev_element)
+
+    " Lisp indention
+    nmap <silent><buffer> ==              <Plug>(sexp_indent)
+    nmap <silent><buffer> =-              <Plug>(sexp_indent_top)
+
+    " Motions
+    xmap <silent><buffer> af              <Plug>(sexp_outer_list)
+    omap <silent><buffer> af              <Plug>(sexp_outer_list)
+    xmap <silent><buffer> if              <Plug>(sexp_inner_list)
+    omap <silent><buffer> if              <Plug>(sexp_inner_list)
+    xmap <silent><buffer> aF              <Plug>(sexp_outer_top_list)
+    omap <silent><buffer> aF              <Plug>(sexp_outer_top_list)
+    xmap <silent><buffer> iF              <Plug>(sexp_inner_top_list)
+    omap <silent><buffer> iF              <Plug>(sexp_inner_top_list)
+    xmap <silent><buffer> as              <Plug>(sexp_outer_string)
+    omap <silent><buffer> as              <Plug>(sexp_outer_string)
+    xmap <silent><buffer> is              <Plug>(sexp_inner_string)
+    omap <silent><buffer> is              <Plug>(sexp_inner_string)
+    xmap <silent><buffer> ae              <Plug>(sexp_outer_element)
+    omap <silent><buffer> ae              <Plug>(sexp_outer_element)
+    xmap <silent><buffer> ie              <Plug>(sexp_inner_element)
+    omap <silent><buffer> ie              <Plug>(sexp_inner_element)
+
+    " Movement
+    nmap <silent><buffer> (               <Plug>(sexp_move_to_prev_bracket)
+    xmap <silent><buffer> (               <Plug>(sexp_move_to_prev_bracket)
+    omap <silent><buffer> (               <Plug>(sexp_move_to_prev_bracket)
+    nmap <silent><buffer> )               <Plug>(sexp_move_to_next_bracket)
+    xmap <silent><buffer> )               <Plug>(sexp_move_to_next_bracket)
+    omap <silent><buffer> )               <Plug>(sexp_move_to_next_bracket)
+
+    " Keep structure while inserting
+    imap <silent><buffer> <BS>            <Plug>(sexp_insert_backspace)
+    imap <silent><buffer> "               <Plug>(sexp_insert_double_quote)
+    imap <silent><buffer> (               <Plug>(sexp_insert_opening_round)
+    imap <silent><buffer> )               <Plug>(sexp_insert_closing_round)
+    imap <silent><buffer> [               <Plug>(sexp_insert_opening_square)
+    imap <silent><buffer> ]               <Plug>(sexp_insert_closing_square)
+    imap <silent><buffer> {               <Plug>(sexp_insert_opening_curly)
+    imap <silent><buffer> }               <Plug>(sexp_insert_closing_curly)
+
+    " This is questionable since ZZ is dangerous and is very close to ,ZZ
+    nmap <localleader>ZZ <Plug>(sexp_move_to_prev_bracket)
+
+endfunction
+
+autocmd FileType *.clj call s:init_sexp()
+autocmd FileType *.cljc call s:init_sexp()
+autocmd FileType *.cljs call s:init_sexp()
+autocmd FileType *.cljx call s:init_sexp()
+autocmd FileType *.hy call s:init_sexp()
+autocmd FileType *.lisp call s:init_sexp()
+autocmd FileType *.lsp call s:init_sexp()
+autocmd FileType *.scm call s:init_sexp()
+
+" let g:which_key_map['k'] = {
+"             \ 'name': '+sexp',
+"             \ }
+
+inoremap <silent><expr> <localleader>r coc#refresh()
+inoremap <silent><expr> <leader>mr coc#refresh()
+
+" gd - go to definition of word under cursor
+nmap <silent> gd <Plug>(coc-definition)
+" I should pick <localleader>gg or <localleader>gd
+nmap <silent> <localleader>gg <Plug>(coc-definition)
+nmap <silent> <leader>mgg <Plug>(coc-definition)
+nmap <silent> <localleader>gd <Plug>(coc-definition)
+nmap <silent> <leader>mgd <Plug>(coc-definition)
+nmap <silent> <localleader>gt <Plug>(coc-type-definition)
+nmap <silent> <leader>mgt <Plug>(coc-type-definition)
+
+" gi - go to implementation
+nmap <silent> <localleader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>mgi <Plug>(coc-implementation)
+
+" gr - find references
+nmap <silent> <localleader>gr <Plug>(coc-references)
+nmap <silent> <leader>mgr <Plug>(coc-references)
+
+" gh - get hint on whatever's under the cursor
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> <localleader>hh :call <SID>show_documentation()<CR>
+nnoremap <silent> <leader>mhh :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+nnoremap <silent> <localleader>lo  :<C-u>CocList outline<cr>
+nnoremap <silent> <leader>mlo  :<C-u>CocList outline<cr>
+nnoremap <silent> <localleader>ls  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>mls  :<C-u>CocList -I symbols<cr>
+
+" List errors
+nnoremap <silent> <localleader>ll  :<C-u>CocList locationlist<cr>
+nnoremap <silent> <leader>mll  :<C-u>CocList locationlist<cr>
+
+" list commands available in ls (and others)
+nnoremap <silent> <localleader>lc  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>mlc  :<C-u>CocList commands<cr>
+
+" restart when a ls gets wonky
+nnoremap <silent> <localleader>R  :<C-u>CocRestart<CR>
+nnoremap <silent> <leader>mR  :<C-u>CocRestart<CR>
+
+" view all errors
+nnoremap <silent> <leader>el  :<C-u>CocList diagnostics<CR>
+
+" manage extensions
+nnoremap <silent> <localleader>le  :<C-u>CocList extensions<cr>
+nnoremap <silent> <leader>mle  :<C-u>CocList extensions<cr>
+
+" rename the current word in the cursor
+nmap <localleader>rr  <Plug>(coc-rename)
+nmap <leader>mrr  <Plug>(coc-rename)
+nmap <localleader>rf  <Plug>(coc-format-selected)
+vmap <leader>mrf  <Plug>(coc-format-selected)
+
+" run code actions
+vmap <localleader>aa  <Plug>(coc-codeaction-selected)
+vmap <leader>maa  <Plug>(coc-codeaction-selected)
+nmap <localleader>aa  <Plug>(coc-codeaction-selected)
+nmap <leader>maa  <Plug>(coc-codeaction-selected)
+
+
+
+let g:which_key_map['m'] = {
+            \ 'name': '+mode',
+            \ 'a': {
+                \ 'name': '+actions',
+            \},
+            \ 'r': {
+                \ 'name': '+refactor',
+                \},
+            \ 'l': {
+                \ 'name': '+list',
+                \},
+            \ 'h': {
+                \ 'name': '+help',
+                \},
+            \ 'd': {
+                \ 'name': '+debug',
+                \},
+            \ 's': {
+                \ 'name': '+send',
+                \},
+            \ 'g': {
+                \ 'name': '+goto',
+                \},
+            \ }
+
+" Close vim if only nerdtree is left
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+autocmd FileType python setlocal nosmarttab
+
+xmap <silent>= <Plug>(coc-format-selected)
+vmap <silent>= <Plug>(coc-format-selected)
+nmap <silent>= <Plug>(coc-format-selected)

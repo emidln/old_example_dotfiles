@@ -1,0 +1,56 @@
+[user]
+	name = Brandon Adams
+	email = emidln@gmail.com
+
+[alias]
+    # pretty log
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %C(blue)<%an>%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
+    # lg with verbose date
+    lgv = log --graph --pretty=format:'%Cred%h%Creset %Cgreen%ci%Creset -%C(yellow)%d%Creset %C(blue)<%an>%Creset %s' --abbrev-commit --date=relative
+    # log with files modified
+    ll = log --pretty=format:"%Cred%h%C(yellow)%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    # list branches by recently modified
+    b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' --color refs/heads | sed -e 's-refs/heads/--'"
+    # diff a revision
+    dr  = "!git-diff-revision"
+    # pull --rebase
+    pr = pull --rebase --autostash -j16 --recurse-submodules --no-tags
+    # grep-blame
+    gb = "!f() { git grep -n $1 | while IFS=: read i j k; do git blame -L $j,$j $i | cat; done }; f"
+    # status
+    st = status
+
+[http]
+	emptyauth = true
+	postBuffer = 2097152000
+[https]
+	postBuffer = 2097152000
+[color]
+	ui = true
+[core]
+	#pager = diff-so-fancy ;| less --tabs=4 -RFX
+	pager = delta --light --paging=never
+##[color "diff-highlight"]
+##	oldNormal = red bold
+##	oldHighlight = red bold 52
+##	newNormal = green bold
+##	newHighlight = green bold 22
+##[color "diff"]
+##    meta = 55 bold
+##    frag = magenta bold
+##	commit = blue bold
+##	old = red bold
+##	new = green bold
+##	whitespace = red reverse
+[init]
+	defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only --light --paging=never
+[delta]
+	navigate = true
+	#side-by-side = true
+    #paging = never
+[merge]
+	conflictStyle = diff3
+[diff]
+	colorMoved = default

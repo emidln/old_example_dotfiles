@@ -1,0 +1,29 @@
+set editing-mode vi
+set vi-ins-mode-string "\1\e[38;5;237m\e[48;5;048m\2[INSERT]\1\e[0m\2 "
+set vi-cmd-mode-string "\1\e[38;5;1m\e[48;5;226m\2[NORMAL]\1\e[0m\2 "
+set show-mode-in-prompt on
+$if mode=vi
+    set keymap vi-command
+    "\C-a": beginning-of-line
+    "\C-e": end-of-line
+    "\C-k": previous-history
+    "\C-j": next-history
+    "\C-x\C-x": edit-and-execute-command
+    "\C-x\C-r": redraw-current-line
+    "\C-u": unix-line-discard
+    "\C-"~: re-read-init-file
+
+    set keymap vi-insert
+    "\C-a": beginning-of-line
+    "\C-e": end-of-line
+    "\C-j": next-history
+    "\C-k": previous-history
+    "\C-x\C-a": vi-movement-mode
+    "\C-x\C-x": edit-and-execute-command
+    "\C-x\C-r": redraw-current-line
+    "\C-u": unix-line-discard
+$endif
+
+#$if Bash
+#    Space: magic-space
+#$endif
