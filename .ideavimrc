@@ -1,0 +1,181 @@
+set clipboard=unnamedplus,unnamed
+set clipboard+=ideaput
+set ideajoin
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set surround
+set commentary
+set showmode
+set number
+set gdefault
+set history=1000
+let g:WhichKey_ShowVimActions = "true"
+let g:WhichKey_DefaultDelay = 50
+set which-key
+set sneak
+set notimeout
+set NERDTree
+set noideadelaymacro
+"set timeout timeoutlen=1000 ttimeoutlen=100
+let mapleader = " "
+nmap <leader>m ,
+
+nmap <C-o> :action Back<CR>
+
+" quit/reload
+nnoremap <leader>qq :action Exit<cr>
+nnoremap <leader>qr :action InvalidateCaches<cr>
+
+" git
+nnoremap <leader>gs :action Vcs.QuickListPopupAction<cr>
+nnoremap <leader>gS :action ActivateVersionControlToolWindow<CR>
+nnoremap <leader>gb :action Annotate<CR>
+" file ops
+nnoremap <leader>ff :action GotoFile<cr>
+nnoremap <leader>fn :action FileChooser.NewFile<CR>
+nnoremap <leader>fr :action RecentFiles<cr>
+nnoremap <leader>fs :action SaveAll<cr>
+nnoremap <leader>fwp :action SelectInProjectView<cr>
+nnoremap <leader>fww :action SelectIn<cr>
+nnoremap <leader>ftt :NERDTreeToggle<cr>
+
+" intellij maint
+nnoremap <leader>fed :e ~/.ideavimrc<CR>
+nnoremap <leader>fer :source ~/.ideavimrc<CR>
+nnoremap <leader>fes :action WelcomeScreen.Settings<CR>
+nnoremap <leader>feU :action CheckForUpdates<CR>
+
+" copy file/path info
+nnoremap <leader>fyy :action CopyFileReference<c>
+nnoremap <leader>fyb :action Blaze.CopyBlazeTargetPathAction<cr>
+
+" goto things
+nnoremap <leader><leader> :action SearchEverywhere<cr>
+"nnoremap <leader><leader> :action GotoAction<cr>
+nnoremap <leader>pf :action GotoFile<cr>
+nnoremap <leader>ji :action FileStructurePopup<cr>
+
+" window stuff
+nnoremap <leader>wj <c-w>j
+nnoremap <leader>wk <c-w>k
+nnoremap <leader>wh <c-w>h
+nnoremap <leader>wl <c-w>l
+nnoremap <leader>wv <c-w>v
+nnoremap <leader>ws <c-w>s
+nnoremap <leader>wd <c-w>c
+nnoremap <leader>wc <c-w>c
+nnoremap <leader>ww <c-w>w
+nnoremap <leader><tab> <c-w>w
+nnoremap <leader>qq :action Exit<cr>
+nnoremap <leader>en :action GotoNextError<cr>
+nnoremap <leader>ep :action GotoPreviousError<cr>
+nnoremap <leader>ee :action ShowErrorDescription<cr>
+nnoremap <leader>el :action ShowErrorDescription<cr>
+
+nnoremap <leader>kB :action :cursive.actions.paredit/barf-backwards<CR>
+nnoremap <leader>kb :action :cursive.actions.paredit/barf-forwards<CR>
+nnoremap <leader>kdx :action :cursive.actions.paredit/kill-sexp<CR>
+nnoremap <leader>kS :action :cursive.actions.paredit/slurp-backwards<CR>
+nnoremap <leader>ks :action :cursive.actions.paredit/slurp-forwards<CR>
+nnoremap <leader>ke :action :cursive.actions.paredit/splice-killing-backwards<CR>
+nnoremap <leader>kE :action :cursive.actions.paredit/splice-killing-forwards<CR>
+
+nnoremap <leader>kw( :action :cursive.actions.paredit/wrap-paren<CR>
+nnoremap <leader>kw[ :action :cursive.actions.paredit/wrap-square<CR>
+nnoremap <leader>kw{ :action :cursive.actions.paredit/wrap-curly<CR>
+nnoremap <leader>kw" :action :cursive.actions.paredit/wrap-quotes<CR>
+
+nnoremap ,rtf :action :cursive.actions.paredit/thread-form<CR>
+
+nnoremap <C-g><C-g> :action :cursive.repl.actions/interrupt <CR>
+nnoremap ,sp :action :cursive.repl.actions/jump-to-output<CR>
+nnoremap ,ss :action :cursive.repl.actions/jump-to-repl<CR>
+nnoremap ,sb :action :cursive.repl.actions/load-file<CR>
+nnoremap ,em :action :cursive.repl.actions/macroexpansion<CR>
+nnoremap <C-<Down>> :action :cursive.repl.actions/next-history-item<CR>
+nnoremap <C-<Up>> :action :cursive.repl.actions/prev-history-item<CR>
+nnoremap ,se :action :cursive.repl.actions/run-last-sexp<CR>
+nnoremap ,sn :action :cursive.repl.actions/run-top-sexp<CR>
+nnoremap ,sx :action :cursive.repl.actions/sync-files<CR>
+nnoremap ,tx :action :cursive.testing.actions/remove-test-markers<CR>
+nnoremap ,tr :action :cursive.testing.actions/rerun-last-test <CR>
+nnoremap ,ta :action :cursive.testing.actions/run-ns-tests <CR>
+nnoremap ,tt :action :cursive.testing.actions/run-single-test<CR>
+
+vnoremap <C-c><C-c> :action Cursive.Repl.Command.execute-current-selection<CR>
+nnoremap <C-c><C-c> mbvip :action Cursive.Repl.Command.execute-current-selection<CR>`b<CR>
+
+nnoremap ,gS :action GotoSuperMethod<cr>
+nnoremap gf :action GotoFile<cr>
+nnoremap ,gf :action GotoFile<cr>
+nnoremap gp :action FindInPath<cr>
+nnoremap ,gp :action FindInPath<cr>
+nnoremap cp :action ReplaceInPath<cr>
+nnoremap ,cp :action ReplaceInPath<cr>
+nnoremap ,gt :action GotoTest<cr>
+nnoremap ,gc :action GotoClass<cr>
+nnoremap ,gu :action FindUsages<cr>
+nnoremap ,gs :action GotoSymbol<cr>
+nnoremap ,gr :action GotoRelated<cr>
+nnoremap ,gb :action Blaze.OpenCorrespondingBuildFile<cr>
+nnoremap ,ss :action Blaze.IncrementalSyncProject<cr>
+nnoremap ,si :action Blaze.IncrementalSyncProject<cr>
+nnoremap ,sf :action Blaze.FullSyncProject<cr>
+nnoremap ,sp :action Blaze.PartialSyncProject<cr>
+nnoremap <leader>ca :action MakeBlazeProject<cr>
+nnoremap <leader>cm :action MakeBlazeModule<cr>
+nnoremap <leader>cc :action Run<cr>
+nnoremap <leader>cr :action Rerun<cr>
+nnoremap <leader>cl :action RunAnything<cr>
+nnoremap <leader>ce :action editRunConfigurations<cr>
+nnoremap <leader>pC :action Blaze.EditLocalProjectView<CR>
+nnoremap <leader>al :actionlist<CR>
+nnoremap <leader>aa :action GotoAction<CR>
+"nnoremap <c-o> :action Back<cr>
+"nnoremap <c-i> :action Forward<cr>
+"nnoremap g<c-o> <c-o>
+"nnoremap g<c-i> <c-i>
+nnoremap ,dD :action Debug<cr>
+nnoremap ,dx :action ShowExecutionPoint<cr>
+nnoremap ,dn :action StepOver<cr>
+nnoremap ,dN :action ForceStepOver<cr>
+nnoremap ,do :action StepOut<cr>
+nnoremap ,di :action StepInto<cr>
+nnoremap ,dI :action ForceStepInto<cr>
+nnoremap ,dp :action ShowExecutionPoint<cr>
+nnoremap ,dr :action Resume<cr>
+nnoremap ,db :action ToggleLineBreakpoint<CR>
+nnoremap ,dm :action ToggleMethodBreakpoint<CR>
+nnoremap ,bc :action ActivateBlazeConsoleToolWindow<CR>
+nnoremap ,be :action ActivateBlazeProblemsToolWindow<CR>
+
+" toggles
+nnoremap <leader>tw :action EditorToggleShowWhitespaces<cr>
+nnoremap <leader>tf :action ToggleDistractionFreeMode<cr>
+nnoremap <leader>tF :action TogglePresentationMode<cr>
+nnoremap <leader>tn :action EditorToggleShowLineNumbers<cr>
+
+" refactoring
+nnoremap ,rn :action RenameElement<cr>
+nnoremap ,rr :action RefactoringMenu<cr>
+
+" vcs/git
+nnoremap <leader>gg :action Git.Menu<cr>
+nnoremap <leader>gs :action Git.Menu<cr>
+nnoremap <leader>gl :action Vcs.Show.Log<cr>
+nnoremap <leader>gfa :action Annotate<cr>
+nnoremap <leader>gfd :action Compare.SameVersion<cr>
+
+" comment a line, similar to tpope/vim-commentary
+nnoremap gcc :action CommentByLineComment<CR>
+vnoremap gc :<bs><bs><bs><bs><bs>action VimVisualSwapSelections<cr>:action CommentByLineComment<CR>gv
+vnoremap gcc :<bs><bs><bs><bs><bs>action VimVisualSwapSelections<cr>:action CommentByLineComment<CR>gv
+nnoremap gcap vap:<bs><bs><bs><bs><bs>action VimVisualSwapSelections<cr>:action CommentByLineComment<CR>gv
+
+"nnoremap <leader>* :action EditorSelectWord<cr><leader><leader>
+
+vnoremap * :action SearchEverywhere<cr>
+vnoremap gp :action FindInPath<cr>
+
